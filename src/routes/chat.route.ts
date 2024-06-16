@@ -1,0 +1,11 @@
+import express from 'express';
+import http from 'http';
+import { Server as SocketIOServer } from 'socket.io';
+import { joinroom, sendmessages } from '../controllers/chat.controllers';
+const chatRouter=express.Router();
+const app = express();
+const server = http.createServer(app);
+const io = new SocketIOServer(server);
+chatRouter.post('/chat/join', (req, res) => joinroom(req, res, io));
+chatRouter.post('/chat', (req, res) => sendmessages(req, res, io));
+export default chatRouter;
